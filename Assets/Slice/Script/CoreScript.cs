@@ -10,6 +10,7 @@ public class CoreScript : MonoBehaviour
     public bool CallUIHPBar = false;
     public GameObject UIHpIndicator;
     public GameObject HPPoin;
+    public int exp;
     // Start is called before the first frame update
     void Start()
     {
@@ -39,6 +40,7 @@ public class CoreScript : MonoBehaviour
         if(CallUIHPBar){
             Destroy(UIHpIndicator);
         }
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerAttribute>().BonusExp(exp);
         GameObject.FindGameObjectWithTag("GameController").GetComponent<PlayerMovement>().Finish(true);
         Destroy(gameObject);
     }

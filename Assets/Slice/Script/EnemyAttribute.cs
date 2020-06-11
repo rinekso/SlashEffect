@@ -11,6 +11,7 @@ public class EnemyAttribute : MonoBehaviour
     public GameObject UIHpIndicator;
     public GameObject HPPoin;
     public bool part;
+    public int exp = 30;
     private void Start() {
         currentHp = maxHP;
         if(CallUIHPBar){
@@ -43,5 +44,7 @@ public class EnemyAttribute : MonoBehaviour
         }else{
             Destroy(gameObject);
         }
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerAttribute>().BonusStamina(30);
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerAttribute>().BonusExp(exp);
     }
 }

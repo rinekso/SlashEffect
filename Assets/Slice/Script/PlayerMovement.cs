@@ -16,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
     public Material Blue;
     Vector2 endPoint;
     public GameObject GameFinishPanel;
+    public BarFinishScript barFinish;
     public GameObject GameOverPanel;
     public GameObject TutorialPanel;
     
@@ -237,6 +238,8 @@ public class PlayerMovement : MonoBehaviour
             TutorialPanel.SetActive(false);
         }
         if(status){
+            float currentExp = Player.GetComponent<PlayerAttribute>().exp;
+            barFinish.addExp = currentExp;
             GameFinishPanel.SetActive(true);
         }else{
             GameOverPanel.SetActive(true);

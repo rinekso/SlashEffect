@@ -23,9 +23,15 @@ public class PlayerAttribute : MonoBehaviour
     public GameObject UIHpIndicator; 
     public StaminaIndicator UIStaminaIndicator;
     public bool die = false;
+    public int exp;
     // Start is called before the first frame update
     void Start()
     {
+        StartCoroutine(InitPlayer());
+    }
+    IEnumerator InitPlayer(){
+        ReadLevel();
+        yield return null;
         UIHpIndicator.GetComponent<HPIndicator>().maxHp = maxHp;
         UIStaminaIndicator.GetComponent<StaminaIndicator>().maxHp = maxStamina;
         UIStaminaIndicator.GetComponent<StaminaIndicator>().staminaCost = staminaCost;
@@ -34,6 +40,17 @@ public class PlayerAttribute : MonoBehaviour
         gravityable = true;
         rigidbody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        yield return null;
+    }
+    void ReadLevel(){
+        if(PlayerPrefs.GetFloat("maxHpamount") > 0)
+            maxHp = PlayerPrefs.GetFloat("maxHpamount");
+        if(PlayerPrefs.GetFloat("maxSpamount") > 0)
+            maxStamina = PlayerPrefs.GetFloat("maxSpamount");
+        if(PlayerPrefs.GetFloat("regenSpamount") > 0)
+            regenStamina = PlayerPrefs.GetFloat("regenSpamount")/6;
+        if(PlayerPrefs.GetFloat("APamount") > 0)
+            Hit = PlayerPrefs.GetFloat("APamount");
     }
     public bool EnoughStamina(){
         return (staminaCost<=currentStamina)? true: false;
@@ -88,6 +105,15 @@ public class PlayerAttribute : MonoBehaviour
         else
             currentStamina += regenStamina;
         UIStaminaIndicator.GetComponent<StaminaIndicator>().Hitted(currentStamina);
+    }
+    public void BonusStamina(float amount){
+        if(currentStamina + amount < maxStamina)
+            currentStamina += amount;
+        else
+            currentStamina = maxStamina;
+    }
+    public void BonusExp(int amount){
+        exp += amount;
     }
     public void CheckGroundManual(){
         isGround = false;
